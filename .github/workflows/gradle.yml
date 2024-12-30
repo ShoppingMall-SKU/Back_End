@@ -66,11 +66,7 @@ jobs:
             docker ps -a -q --filter "name=mealkart_client_container" | grep -q . && sudo docker rm mealkart_client_container || true
             
             # 새로운 컨테이너 실행 
-            docker run --name mealkart_client_container -d \
-              --log-driver=syslog \
-              -p 8080:8080 \ 
-              -e SPRING_PROFILES_ACTIVE=prod \
-              ${{ secrets.DOCKER_USERNAME }}/mealkart_client:latest
+            docker run --name mealkart_client_container -d --log-driver=syslog -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=prod" ${{ secrets.DOCKER_USERNAME }}/mealkart_client:latest
             
             # 사용되지 않는 컨테이너 및 이미지 정리
             sudo docker container prune -f
