@@ -58,7 +58,8 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # 최신 이미지 pull
+            # 이미지 전체 제거 후 최신 이미지 pull 
+            sudo docker rmi $(docker images -q)
             docker pull ${{ secrets.DOCKER_USERNAME }}/mealkart-client:latest
             
             # 기존 컨테이너 중지 및 삭제 (컨테이너가 존재하지 않아도 무시)
@@ -70,7 +71,6 @@ jobs:
             
             # 사용되지 않는 컨테이너 및 이미지 정리
             sudo docker container prune -f
-            sudo docker rmi $(docker images -q)
 
       # - name: Generate and submit dependency graph
       #   uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
