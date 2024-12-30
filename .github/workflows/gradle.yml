@@ -1,0 +1,81 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "release" ]
+  pull_request:
+    branches: [ "release" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: List directories
+        run: |
+          ls -la
+
+      - name: Print current working directory
+        run: |
+          pwd
+
+
+      - name: make application.properties
+        run: |
+          cd src/main
+          test ! -d ./abc && mkdir resources
+          touch ./resources/application.properties
+          echo "${{ secrets.APPLICATION_PROD }}" > ./application.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t app .
+          docker tag app ${{ secrets.DOCKER_USERNAME }}/mealkart-client:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/mealkart-client:latest
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            # 최신 이미지 pull
+            docker pull ${{ secrets.DOCKER_USERNAME }}/mealkart-client:latest
+            
+            # 기존 컨테이너 중지 및 삭제 (컨테이너가 존재하지 않아도 무시)
+            docker ps -q --filter "name=mealkart-client_container" | grep -q . && sudo docker stop mealkart-client_container || true
+            docker ps -a -q --filter "name=mealkart-client_container" | grep -q . && sudo docker rm mealkart-client_container || true
+            
+            # 새로운 컨테이너 실행 
+            docker run --name mealkart-client_container -d \
+              --log-driver=syslog \
+              -p 8080:8080 \ 
+              -e SPRING_PROFILES_ACTIVE=prod \
+              ${{ secrets.DOCKER_USERNAME }}/mealkart-client:latest
+            
+            # 사용되지 않는 컨테이너 및 이미지 정리
+            sudo docker container prune -f
+            sudo docker image prune -f
+
+
+      # - name: Generate and submit dependency graph
+      #   uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
