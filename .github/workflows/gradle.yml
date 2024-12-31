@@ -33,7 +33,7 @@ jobs:
       - name: make application.properties
         run: |
           cd src/main
-          test ! -d ./abc && mkdir resources
+          test ! -d ./resources && mkdir resources
           touch ./resources/application.properties
           echo "${{ secrets.APPLICATION_PROD }}" > ./application.properties
 
