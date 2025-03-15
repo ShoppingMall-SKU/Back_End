@@ -31,9 +31,21 @@ public class Seller extends BaseDomain {
     @Column(name = "DELIVERY_FEE")
     private Integer deliveryFee;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_UUID")
-    private User userUuid;
+    @Column(name = "SELLER_NAME")
+    private String sellerName;
+
+    // 전화번호
+    @Column(name = "TEL_NUMBER")
+    private String telNumber;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "SELLER_ID")
+    private String sellerId;
 
     @Column(name = "USE_YN", columnDefinition = "CHAR(1)")
     private String useYn;
@@ -52,11 +64,19 @@ public class Seller extends BaseDomain {
     public Seller (Integer deliveryFee,
                    String brandName,
                    String sellerNumber,
-                   User userUuid){
+                   String sellerName,
+                   String sellerId,
+                   String password,
+                   String telNumber,
+                   String email){
         this.sellerUuid = UtilMethod.createUUID();
         this.sellerNumber = sellerNumber;
         this.brandName = brandName;
         this.deliveryFee = deliveryFee;
-        this.userUuid = userUuid;
+        this.sellerId = sellerId;
+        this.sellerName = sellerName;
+        this.password = password;
+        this.telNumber = telNumber;
+        this.email = email;
     }
 }

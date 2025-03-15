@@ -18,13 +18,16 @@ import org.springframework.util.StringUtils;
 public class CartDetail extends BaseDomain implements Persistable<CartDetailPK> {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CART_UUID")
-    private Cart cartUuid;
+    @Column(name = "CART_UUID")
+    private String cartUuid;
 
     @Id
     @Column(name = "CART_DETAIL_UUID")
     private String cartDetailUuid;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CART_UUID", insertable = false, updatable = false)  // 외래키 매핑용으로만 사용
+    private Cart cart;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_UUID")
@@ -48,19 +51,20 @@ public class CartDetail extends BaseDomain implements Persistable<CartDetailPK> 
     }
 
     @Builder
-    public CartDetail (Cart cartUuid,
+    public CartDetail (Cart cart,
                        Product productUuid,
                        Integer count) {
         this.cartDetailUuid = UtilMethod.createUUID();
-        this.cartUuid = cartUuid;
+        this.cartUuid = cart.getCartUuid();
+        this.cart = cart;
         this.productUuid = productUuid;
         this.count = count;
     }
     @Override
     public CartDetailPK getId(){
         return CartDetailPK.builder()
-                .CartUuid(this.cartUuid.getCartUuid())
-                .CartDetailUuid(this.cartDetailUuid)
+                .cartUuid(this.cartUuid)
+                .cartDetailUuid(this.cartDetailUuid)
                 .build();
 
     }

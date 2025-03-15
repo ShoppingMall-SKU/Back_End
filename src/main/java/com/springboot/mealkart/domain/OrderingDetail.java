@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Persistable;
 import org.springframework.util.StringUtils;
+//import javax.persistence.*;
 
 @Entity
 @Table(name = "TB_ORDERING_DETAIL")
@@ -19,13 +20,16 @@ import org.springframework.util.StringUtils;
 public class OrderingDetail extends BaseDomain implements Persistable<OrderingDetailPK> {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_UUID")
-    private Ordering orderUuid;
+    @Column(name = "ORDERING_UUID")
+    private String orderingUuid;
 
     @Id
-    @Column(name = "ORDER_DEATAIL_UUID")
-    private String orderDetailUuid;
+    @Column(name = "ORDERING_DETAIL_UUID")
+    private String orderingDetailUuid;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_UUID", insertable = false, updatable = false)  // 외래키 매핑용
+    private Ordering ordering;
 
     @Column(name = "PRODUCT_UUID")
     private String productUuid;
@@ -59,13 +63,14 @@ public class OrderingDetail extends BaseDomain implements Persistable<OrderingDe
     }
 
     @Builder
-    public OrderingDetail (Ordering orderUuid,
+    public OrderingDetail (Ordering ordering,
                            String productUuid,
                            Integer price,
                            String orderingCd,
                            Integer quantity) {
-        this.orderDetailUuid = UtilMethod.createUUID();
-        this.orderUuid = orderUuid;
+        this.orderingDetailUuid = UtilMethod.createUUID();
+        this.orderingUuid = ordering.getOrderUuid();
+        this.ordering = ordering;
         this.productUuid = productUuid;
         this.price = price;
         this.orderingCd = orderingCd;
@@ -74,8 +79,8 @@ public class OrderingDetail extends BaseDomain implements Persistable<OrderingDe
     @Override
     public OrderingDetailPK getId(){
         return OrderingDetailPK.builder()
-                .OrderingUuid(this.orderUuid.getOrderUuid())
-                .OrderingDetailUuid(this.orderDetailUuid)
+                .orderingUuid(this.orderingUuid)
+                .orderingDetailUuid(this.orderingDetailUuid)
                 .build();
     }
     @Override
