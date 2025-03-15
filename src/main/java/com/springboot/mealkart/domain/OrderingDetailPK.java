@@ -14,6 +14,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class OrderingDetailPK implements Serializable {
 
-    private String OrderingUuid;
-    private String OrderingDetailUuid;
+    private String orderingUuid;
+    private String orderingDetailUuid;
 }

@@ -13,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDetailPK implements Serializable {
-    private String CartUuid;
-    private String CartDetailUuid;
+    private String cartUuid;
+    private String cartDetailUuid;
 }

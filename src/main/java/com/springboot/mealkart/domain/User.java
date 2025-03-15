@@ -23,7 +23,7 @@ public class User extends BaseDomain {
     @Column(name = "USER_UUID")
     private String userUuid;
 
-    @Column(name = "USER_ROLE")
+    @Column(name = "USER_ROLE") // TODO 삭제 필요
     private UserRole userRole;
 
     @Column(name = "ZIPCODE")
@@ -47,6 +47,9 @@ public class User extends BaseDomain {
 
     @Column(name = "EMAIL")
     private String email;
+
+    @Column(name = "USER_ID")
+    private String userId;
 
     @Column(name = "PASSWORD")
     //@Convert(converter = JpaCryptoConverter.class)

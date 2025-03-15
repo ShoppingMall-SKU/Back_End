@@ -20,7 +20,10 @@ public class Refund extends BaseDomain {
     private String refundUuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_DEATAIL_UUID")
+    @JoinColumns({
+            @JoinColumn(name = "ORDERING_UUID", referencedColumnName = "ORDERING_UUID"),
+            @JoinColumn(name = "ORDERING_DETAIL_UUID", referencedColumnName = "ORDERING_DETAIL_UUID")
+    })
     private OrderingDetail orderDetailUuid;
 
     // 취소환불 사유 (단순변심, 배송지연, 상품결함, 기타)

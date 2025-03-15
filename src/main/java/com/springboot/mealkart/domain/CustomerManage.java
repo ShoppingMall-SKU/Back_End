@@ -42,6 +42,9 @@ public class CustomerManage extends BaseDomain {
     @Column(name = "MANAGE_CD")
     private String manageCd;
 
+    @Column(name = "RELEASE_YN", columnDefinition = "CHAR(1)")
+    private String releaseYn;
+
     @Column(name = "USE_YN", columnDefinition = "CHAR(1)")
     private String useYn;
 
@@ -60,12 +63,14 @@ public class CustomerManage extends BaseDomain {
     public CustomerManage (String title,
                            String content,
                            String attachment,
+                           String releaseYn,
                            String answerContent,
                            Product productUuid) {
         this.customerManageUuid = UtilMethod.createUUID();
         this.title = title;
         this.content = content;
         this.attachment = attachment;
+        this.releaseYn = releaseYn;
         this.answerContent = answerContent;
         this.productUuid= productUuid;
 
