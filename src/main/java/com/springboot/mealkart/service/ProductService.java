@@ -37,7 +37,19 @@ public class ProductService {
      * @return
      */
     private Page<ProductDto> findProductList (Pageable pageable) {
-        return productRepository.findProductList(pageable);
+        Page<Product> productList = productRepository.findAll(pageable);
+        return productList.map(product -> new ProductDto(
+                product.getProductUuid(),
+                product.getProductName(),
+                product.getDescription(),
+                product.getTitleImg(),
+                product.getDetailImg(),
+                product.getBrand(),
+                product.getStoreStatus(),
+                product.getPrice(),
+                product.getSaleRate(),
+                product.getStock()
+        ));
     }
 
     /**
@@ -49,7 +61,7 @@ public class ProductService {
         if (StringUtils.hasLength(productUuid)) {
             throw new CommonException(ErrorCode.INVALID_INPUT,"ProductService.findProductDetail");
         }
-        return productRepository.findProductById(productUuid)
+        return productRepository.findByProductUuid(productUuid)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRODUCT,"ProductService.findProductDetail",productUuid));
     }
 
