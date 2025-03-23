@@ -1,6 +1,7 @@
 package com.springboot.mealkart.domain;
 
 import com.springboot.mealkart.common.domain.BaseDomain;
+import com.springboot.mealkart.dto.ProductUpdateDto;
 import com.springboot.mealkart.enumerate.ProductStatus;
 import com.springboot.mealkart.common.util.UtilMethod;
 import jakarta.persistence.*;
@@ -58,12 +59,12 @@ public class Product extends BaseDomain {
 
     @PrePersist
     public void prePersist() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder
@@ -89,6 +90,36 @@ public class Product extends BaseDomain {
         this.saleRate = saleRate;
         this.sellerUuid = sellerUuid;
         this.stock = stock;
+    }
+
+    public void deactivate() {
+        this.useYn = "N";
+    }
+    public void updateProduct(ProductUpdateDto productUpdateDto) {
+        if (productUpdateDto.getProductName() != null) {
+            this.productName = productUpdateDto.getProductName();
+        }
+        if (productUpdateDto.getDescription() != null) {
+            this.description = productUpdateDto.getDescription();
+        }
+        if (productUpdateDto.getTitleImg() != null) {
+            this.titleImg = productUpdateDto.getTitleImg();
+        }
+        if (productUpdateDto.getDetailImg() != null) {
+            this.detailImg = productUpdateDto.getDetailImg();
+        }
+        if (productUpdateDto.getBrand() != null) {
+            this.brand = productUpdateDto.getBrand();
+        }
+        if (productUpdateDto.getPrice() != null) {
+            this.price = productUpdateDto.getPrice();
+        }
+        if (productUpdateDto.getSaleRate() != null) {
+            this.saleRate = productUpdateDto.getSaleRate();
+        }
+        if (productUpdateDto.getStock() != null) {
+            this.stock = productUpdateDto.getStock();
+        }
     }
 }
 
