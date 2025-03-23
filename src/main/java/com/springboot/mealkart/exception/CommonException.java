@@ -13,12 +13,20 @@ public class CommonException extends RuntimeException {
         this(errorCode, null, null);
     }
 
+    public CommonException(ErrorCode errorCode, String serviceName) {
+        super(errorCode != null ? errorCode.getMessage() : "Unknown error");
+        this.errorCode = errorCode;
+        this.serviceName = serviceName;
+        this.parameter = null;
+    }
+
     public CommonException(ErrorCode errorCode, String serviceName, Object parameter) {
         super(errorCode != null ? errorCode.getMessage() : "Unknown error");
         this.errorCode = errorCode;
         this.serviceName = serviceName;
         this.parameter = parameter;
     }
+
     @Override
     public String getMessage() {
         String baseMessage = (errorCode != null) ? errorCode.getMessage() : "Unknown error";
