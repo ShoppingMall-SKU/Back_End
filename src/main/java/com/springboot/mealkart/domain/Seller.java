@@ -52,12 +52,12 @@ public class Seller extends BaseDomain {
 
     @PrePersist
     public void prePersist() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder

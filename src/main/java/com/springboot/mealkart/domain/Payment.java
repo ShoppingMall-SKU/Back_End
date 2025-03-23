@@ -44,13 +44,13 @@ public class Payment extends BaseDomain {
 
     @PrePersist
     public void prePersist() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
-        this.refundYn = StringUtils.isEmpty(this.refundYn) ? "N" : this.refundYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
+        this.refundYn = StringUtils.hasLength(this.refundYn) ? "N" : this.refundYn;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder

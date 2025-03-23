@@ -50,13 +50,13 @@ public class CustomerManage extends BaseDomain {
 
     @PrePersist
     public void prePersist() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
-        this.manageCd = StringUtils.isEmpty(this.manageCd) ? "0" : this.manageCd;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
+        this.manageCd = StringUtils.hasLength(this.manageCd) ? "0" : this.manageCd;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder
