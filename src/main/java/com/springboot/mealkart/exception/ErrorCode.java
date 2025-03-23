@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
-
-
     // Bad Request Error
     NOT_END_POINT(40000, HttpStatus.BAD_REQUEST, "End Point가 존재하지 않습니다."),
     NOT_FOUND_RESOURCE(40000, HttpStatus.BAD_REQUEST, "해당 리소스가 존재하지 않습니다."),
@@ -35,11 +33,13 @@ public enum ErrorCode {
     REDIS_NOT_FOUND(42202, HttpStatus.NOT_FOUND, "Redis에서 키를 찾을 수 없습니다."),
     ACCESS_DENIED_ERROR(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 
-
-
     // Not Found Error
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
+    NOT_FOUND_PRODUCT(40402,HttpStatus.NOT_FOUND, "해당 상품이 존재하지 않습니다."),
 
+
+    // 존재 하지 않은 파라미터
+    INVALID_INPUT(40500,HttpStatus.NOT_FOUND,"Invalid input parameter"),
 
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),

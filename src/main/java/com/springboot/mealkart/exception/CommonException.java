@@ -4,12 +4,30 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class CommonException extends RuntimeException {
     private final ErrorCode errorCode;
+    private final String serviceName;
+    private final Object parameter;
 
+    public CommonException(ErrorCode errorCode) {
+        this(errorCode, null, null);
+    }
+
+    public CommonException(ErrorCode errorCode, String serviceName, Object parameter) {
+        super(errorCode != null ? errorCode.getMessage() : "Unknown error");
+        this.errorCode = errorCode;
+        this.serviceName = serviceName;
+        this.parameter = parameter;
+    }
     @Override
     public String getMessage() {
-        return errorCode.getMessage();
+        String baseMessage = (errorCode != null) ? errorCode.getMessage() : "Unknown error";
+        if (serviceName != null && parameter != null) {
+            return String.format("[%s] %s | Parameter: %s", serviceName, baseMessage, parameter);
+        } else if (serviceName != null) {
+            return String.format("[%s] %s", serviceName, baseMessage);
+        } else {
+            return baseMessage;
+        }
     }
 }
