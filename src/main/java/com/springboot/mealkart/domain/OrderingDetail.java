@@ -53,13 +53,13 @@ public class OrderingDetail extends BaseDomain implements Persistable<OrderingDe
 
     @PrePersist
     public void prePersist() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
-        this.deliveryCd = StringUtils.isEmpty(this.deliveryCd) ? "01" : this.deliveryCd;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
+        this.deliveryCd = StringUtils.hasLength(this.deliveryCd) ? "01" : this.deliveryCd;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder

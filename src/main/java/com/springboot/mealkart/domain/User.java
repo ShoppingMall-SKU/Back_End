@@ -71,14 +71,14 @@ public class User extends BaseDomain {
 
     @PrePersist
     public void prePersist() {
-        this.acntLockYn = StringUtils.isEmpty(this.acntLockYn) ? "N" : this.acntLockYn;
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.acntLockYn = StringUtils.hasLength(this.acntLockYn) ? "N" : this.acntLockYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @PreUpdate
     public void PreUpdate() {
-        this.acntLockYn = StringUtils.isEmpty(this.acntLockYn) ? "N" : this.acntLockYn;
-        this.useYn = StringUtils.isEmpty(this.useYn) ? "Y" : this.useYn;
+        this.acntLockYn = StringUtils.hasLength(this.acntLockYn) ? "N" : this.acntLockYn;
+        this.useYn = StringUtils.hasLength(this.useYn) ? "Y" : this.useYn;
     }
 
     @Builder
