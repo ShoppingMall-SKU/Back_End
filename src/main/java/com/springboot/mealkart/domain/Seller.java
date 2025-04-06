@@ -78,5 +78,20 @@ public class Seller extends BaseDomain {
         this.password = password;
         this.telNumber = telNumber;
         this.email = email;
+        // 2025.04.06 added by hwanhee. 디폴트값 Y
+        this.useYn = "Y";
+    }
+
+    public Boolean deactivate() {
+        this.useYn = "N";
+        return true;
+    }
+
+    public void updateBrandNameSeller(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public void updatePasswordSeller(String password) {
+        this.password = password;
     }
 }
