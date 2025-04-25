@@ -7,10 +7,7 @@ import com.springboot.mealkart.enumerate.SocialType;
 import com.springboot.mealkart.enumerate.UserRole;
 import com.springboot.mealkart.common.util.UtilMethod;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.util.StringUtils;
 
 @Entity
@@ -38,6 +35,10 @@ public class User extends BaseDomain {
     @Column(name = "NAME")
     private String name;
 
+    // 2025.04.24 added by hwanhee. 일반 전화 null이 가능하지만 있어야함.
+    @Column(name = "GENARAL_NUM")
+    private String genaralNum;
+
     @Column(name = "PHONE_NUMBER")
     //@Convert(converter = JpaCryptoConverter.class)
     private String phoneNumber;
@@ -55,6 +56,7 @@ public class User extends BaseDomain {
     //@Convert(converter = JpaCryptoConverter.class)
     private String password;
 
+    @Setter
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
 
@@ -86,8 +88,10 @@ public class User extends BaseDomain {
                  String zipcode,
                  String streetAddress,
                  String detailAddress,
+                 String genaralNum,
                  String phoneNumber,
                  String email,
+                 String userId,
                  String password,
                  String refreshToken,
                  String acntLockYn,
@@ -107,5 +111,8 @@ public class User extends BaseDomain {
         this.pswdErrNmtm = pswdErrNmtm;
         this.socialType = socialType;
         this.userRole = userRole;
+        this.userId = userId;
+        this.genaralNum = genaralNum;
+
     }
 }
